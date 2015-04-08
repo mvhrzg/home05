@@ -32,7 +32,7 @@ def diff(input):
 		animal = input[7:-1]
 	if input[0:6] == 'color=':
 		color = input[6:-1]
-		
+	data = input
 
 class EchoRequestHandler(SocketServer.BaseRequestHandler):
 
@@ -53,7 +53,8 @@ class EchoRequestHandler(SocketServer.BaseRequestHandler):
         try:
 	    while data:
 		linelock.acquire()
-		diff(data)
+#		clientout.write(diff(data))
+		print "diff(data): ", diff(data), "\r\n"
 	        clientout.flush()
 		linelock.release()
         	data = clientin.readline()
