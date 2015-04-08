@@ -12,27 +12,31 @@ PORT = int(sys.argv[1])
 
 animal='bear'
 color='brown'
-global data
+linelock=threading.Lock()
 
 def diff(input):
 	global animal
 	global color
+	global linelock
 
+	linelock.acquire()
 	if input[0:7] == '?animal':
 		input=animal
-#		clientout.write(input+"\r\n")
-		print input
-#		clientout.flush()
+		clientout.write(input+"\r\n")
+
+		print "Sent: ", input
 	if input[0:6] == '?color':
 		input=color
-#		clientout.write(input+"\r\n")
-		print input
-#		clientout.flush()
+		clientout.write(input+"\r\n")
+
+		print "Sent: ", input
 	if input[0:7] == 'animal=':
 		animal = input[7:-1]
+		print "Received: ", animal
 	if input[0:6] == 'color=':
 		color = input[6:-1]
-	data = input
+		print "Received: ", color
+	linelock.release()
 
 class EchoRequestHandler(SocketServer.BaseRequestHandler):
 
@@ -41,23 +45,20 @@ class EchoRequestHandler(SocketServer.BaseRequestHandler):
         """ client handler """
         clientsock = self.request
         print 'Connected to {0}'.format(clientsock.getpeername())
-#	global clientin
-#	global clientout
 
+	global clientout
+	global data
         clientin = clientsock.makefile('r')
         clientout = clientsock.makefile('w')
-	linelock = threading.Lock()
-#	linelock.acquire()
+
 	data = clientin.readline()
-#	linelock.release()	
+
         try:
 	    while data:
-		linelock.acquire()
-#		clientout.write(diff(data))
-		print "diff(data): ", diff(data), "\r\n"
+		diff(data)
 	        clientout.flush()
-		linelock.release()
         	data = clientin.readline()
+
         except EOFError:
             pass
         clientin.close()
@@ -71,18 +72,10 @@ class EchoServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 
 def main():
     """ main routine """
-    global data
-    global linelock
     try:
 	print 'Running on port %d'% (PORT)
         echoserverobj = EchoServer(('',PORT), EchoRequestHandler)
         echoserverobj.serve_forever()
-	echoserver.listen(1)
-	clientconn, clientaddr = echoserverobj.accept()
-	childthr = threading.Thread(target=EchoRequestHandler, 
-					args=(self, linelock))
-	childthr.daemon = True
-	childthr.start()
 
     except (EOFError, KeyboardInterrupt, IOError):
 	if PORT >= 0 and PORT <= 1023:
