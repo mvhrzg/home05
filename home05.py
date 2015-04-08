@@ -3,13 +3,11 @@ __author__ = "mariana herzog & boris sarkisov"
 
 """Built on top of Dr. Dean Brock's Multiple Inheritance socket program"""
 
-import socket
 import SocketServer
 import sys
 import threading
 
 PORT = int(sys.argv[1])
-
 animal='bear'
 color='brown'
 linelock=threading.Lock()
@@ -23,31 +21,34 @@ def diff(input):
 	if input[0:7] == '?animal':
 		input=animal
 		clientout.write(input+"\r\n")
-
 		print "Sent: ", input
+
 	if input[0:6] == '?color':
 		input=color
 		clientout.write(input+"\r\n")
-
 		print "Sent: ", input
+
 	if input[0:7] == 'animal=':
 		animal = input[7:-1]
 		print "Received: ", animal
+
 	if input[0:6] == 'color=':
 		color = input[6:-1]
 		print "Received: ", color
+
 	linelock.release()
 
 class EchoRequestHandler(SocketServer.BaseRequestHandler):
 
     """ client handler class """
     def handle(self):
+	global clientout
+
         """ client handler """
         clientsock = self.request
         print 'Connected to {0}'.format(clientsock.getpeername())
 
-	global clientout
-	global data
+
         clientin = clientsock.makefile('r')
         clientout = clientsock.makefile('w')
 
@@ -67,8 +68,6 @@ class EchoRequestHandler(SocketServer.BaseRequestHandler):
 class EchoServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     """ Threading echo server """
     pass
-
-
 
 def main():
     """ main routine """
