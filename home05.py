@@ -13,28 +13,28 @@ color='brown'
 linelock=threading.Lock()
 
 def diff(input):
-	global animal
-	global color
-	global linelock
+        global animal
+        global color
+        global linelock
 
-	linelock.acquire()
-	if input[0:7] == '?animal':
+        linelock.acquire()
+        if input[0:7] == '?animal':
 		input=animal
 		clientout.write(input+"\r\n")
-		print "Sent: ", input
+		print ("Sent: %s" % input)
 
 	if input[0:6] == '?color':
 		input=color
 		clientout.write(input+"\r\n")
-		print "Sent: ", input
+		print ("Sent: %s" % input)
 
 	if input[0:7] == 'animal=':
 		animal = input[7:-1]
-		print "Received: ", animal
+		print ("Received: %s" % animal)
 
 	if input[0:6] == 'color=':
 		color = input[6:-1]
-		print "Received: ", color
+		print ("Received: %s" % color)
 
 	linelock.release()
 
@@ -42,7 +42,7 @@ class EchoRequestHandler(SocketServer.BaseRequestHandler):
 
     """ client handler class """
     def handle(self):
-	global clientout
+	   global clientout
 
         """ client handler """
         clientsock = self.request
@@ -72,14 +72,14 @@ class EchoServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 def main():
     """ main routine """
     try:
-	print 'Running on port %d'% (PORT)
+	   print 'Running on port %d'% (PORT)
         echoserverobj = EchoServer(('',PORT), EchoRequestHandler)
         echoserverobj.serve_forever()
 
     except (EOFError, KeyboardInterrupt, IOError):
-	if PORT >= 0 and PORT <= 1023:
-		print ("Exception: Reserved Port Number. Try Again.")
-        pass
+        if PORT >= 0 and PORT <= 1023:
+            print ("Exception: Reserved Port Number. Try Again.")
+            pass
 
 if __name__ == "__main__":
     main()
