@@ -39,8 +39,8 @@ linelock=threading.Lock()
     # linelock.release()
 
 
-def handle_data():
-    global clientout
+def communicate():
+    global client
 
     message = input("-> ")
     while message != 'q':
@@ -52,9 +52,8 @@ def handle_data():
     sys.exit()
 
 
+""" main routine """
 def main():
-    global client
-    """ main routine """
     try:
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(server)
@@ -64,7 +63,7 @@ def main():
         stdout.flush()
         sys.exit()
     print('Sucessfully connected to server\r\n')
-    handle_data()
+    communicate()
 
 if __name__ == "__main__":
     main()

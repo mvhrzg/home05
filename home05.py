@@ -52,7 +52,7 @@ class EchoRequestHandler(SocketServer.BaseRequestHandler):
         clientin = clientsock.makefile('r')
         clientout = clientsock.makefile('w')
 
-	data = clientin.readline()
+        data = clientin.readline()
 
         try:
 	    while data:
