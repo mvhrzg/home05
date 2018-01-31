@@ -30,36 +30,6 @@ def send_response(client_conn_tuple, msg):
 	stdout.write('<< outgoing %s\r\n' % msg)
 	stdout.flush()
 
-# def handle_incoming_data(client_conn_tuple, rcvd):
-# 	global animal
-# 	global color
-
-	# response = ''
-	# assignment = rcvd.find('=')
-	# last = get_last_index(rcvd)
-
-	# server_out('h_i_d: tuple = ' + str(client_conn_tuple) + '\r\n')
-	# # stdout.write('h_i_d: rcvd = ' + rcvd + '\r\n')
-
-	# # stdout.write('h_i_d: else\r\n')
-	# # what is current value
-	# if get_first_char(rcvd) == '?':
-	# 	if rcvd[1:last] == 'animal':
-	# 		response = animal
-	# 	if rcvd[1:last] == 'color':
-	# 		response = color
-	# 	stdout.write('h_i_d: sending\r\n')
-	# 	send_response(client_conn_tuple, response)
-
-	# # assign new value
-	# elif assignment > -1:
-	# 	stdout.write('h_i_d: elif\r\n')
-	# 	if rcvd[0:(assignment-1)] == 'animal':
-	# 		animal = rcvd[(assignment+1):last]
-	# 	if rcvd[0:(assignment-1)] == 'color':
-	# 		color = rcvd[(assignment+1):last]
-	# stdout.flush()
-
 def server_out(msg):
 	stdout.write(msg + '\r\n')
 	stdout.flush()
@@ -76,8 +46,6 @@ def start_server():
 	except:
 		server_out('Error starting server socket.')
 		sys.exit()
-	# connections.append(server)
-
 
 def handle_clients():
 	global client

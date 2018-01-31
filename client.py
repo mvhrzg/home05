@@ -14,31 +14,6 @@ animal='bear'
 linelock=threading.Lock()
 
 
-# def talk_to_server(input):
-    # global animal
-    # global color
-    # global linelock
-
-    # linelock.acquire()
-    # client.sendto(input.encode(), server)
-    # linelock.release()
-    
-    # message = 'Hello from ' + str(client.getsockname()[1]) + '!'
-    # client.sendto(message.encode(), (host, port))
-    # stdout.write('Message sent from {0} to {1}'.format(str(client.getsockname()[1]), str(client.getpeername()[1])))
-    # stdout.flush()
-
-
-    # if input[0] == '?':
-        # client.sendto(input.encode(), server)
-        # clientout.write('Sent %s\r\n' % input)
-    # elif '=' in input:
-    #     client.sendto(input.encode(), server)
-        # clientout.write('Sent %s\r\n' % input)
-
-    # linelock.release()
-
-
 def handle_data():
     global clientout
 
