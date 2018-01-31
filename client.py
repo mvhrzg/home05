@@ -40,7 +40,6 @@ linelock=threading.Lock()
 
 
 def communicate():
-    global client
 
     message = input("-> ")
     while message != 'q':
@@ -54,6 +53,8 @@ def communicate():
 
 """ main routine """
 def main():
+    global client
+    
     try:
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(server)
